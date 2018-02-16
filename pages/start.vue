@@ -29,6 +29,21 @@
       </tbody>
     </table>
 
+    <svg :width="width" :height="height">
+      <g :transform="`translate(${width / 2}, ${height / 2})`">
+
+        <path
+        v-for="step in steps"
+        :fill="step.color"
+        class="solidArc"
+        stroke="gray"
+        :d="drawArc"
+        >
+
+        </path>
+      </g>
+    </svg>
+
   </div>
 </template>
 
@@ -46,14 +61,16 @@ export default {
 
   data: function () {
     return {
-      width: 0,
-      height: 0,
+      width: 500,
+      height: 500,
       currentStep: 0,
+      radius: Math.min(this.width, this.height) / 2,
+      innerRadius: 0.1 * this.radius,
+      d3: d3,
       steps: [
         {
           'id': 0,
           'title': 'Health',
-          'order': '5',
           'score': '3',
           'weight': '1',
           'color': '#FEC574'
@@ -61,7 +78,6 @@ export default {
         {
           'id': 1,
           'title': 'Career',
-          'order': '6',
           'score': '8',
           'weight': '1',
           'color': '#FAE38C'
@@ -69,7 +85,6 @@ export default {
         {
           'id': 2,
           'title': 'Love',
-          'order': '7.1',
           'score': '',
           'weight': '1',
           'color': '#EAF195'
@@ -77,7 +92,6 @@ export default {
         {
           'id': 3,
           'title': 'Spirituality',
-          'order': '7.3',
           'score': '',
           'weight': '1',
           'color': '#C7E89E'
@@ -85,7 +99,6 @@ export default {
         {
           'id': 4,
           'title': 'Family',
-          'order': '8.1',
           'score': '',
           'weight': '1',
           'color': '#9CD6A4'
@@ -93,7 +106,6 @@ export default {
         {
           'id': 5,
           'title': 'Money',
-          'order': '8.3',
           'score': '',
           'weight': '1',
           'color': '#6CC4A4'
@@ -101,7 +113,6 @@ export default {
         {
           'id': 6,
           'title': 'Fun',
-          'order': '9',
           'score': '',
           'weight': '1',
           'color': '#4D9DB4'
@@ -109,7 +120,6 @@ export default {
         {
           'id': 7,
           'title': 'Friends',
-          'order': '10.1',
           'score': '',
           'weight': '1',
           'color': '#4776B4'
@@ -118,11 +128,17 @@ export default {
     }
   },
 
+  computed: {
+    drawArc: d3.arc().innerRadius(this.innerRadius).outerRadius(function (d) {
+      return (this.radius - this.innerRadius) * (this.steps[this.currentStep].score / 100.0) + this.innerRadius
+    })
+  },
+
   methods: {
-    onResize () {
-      this.width = this.$el.offsetWidth
-      this.height = this.$el.offsetHeight
-    },
+    // onResize () {
+    //   this.width = this.$el.offsetWidth
+    //   this.height = this.$el.offsetHeight
+    // },
 
     submitScore: function (score) {
       this.updateChart(score)
@@ -136,11 +152,12 @@ export default {
     updateChart: function (score) {
       this.steps[this.currentStep].score = score
     }
+
   },
 
   mounted () {
-    window.addEventListener('resize', this.onResize)
-    this.onResize()
+    // window.addEventListener('resize', this.onResize)
+    // this.onResize()
 
     var width = 500
     var height = 500
@@ -161,14 +178,13 @@ export default {
       .innerRadius(innerRadius)
       .outerRadius(radius)
 
-    var svg = d3.select('body').append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
+    var svg = d3.select('svg g')
+    // .attr('width', width)
+    // .attr('height', height)
+    // .append('g')
+    // .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
 
     this.steps.forEach(function (d) {
-      d.order = d.order
       d.color = d.color
       d.weight = +d.weight
       d.score = +d.score
