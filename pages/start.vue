@@ -2,32 +2,13 @@
   <div>
     <h1>Wheel of Life</h1>
 
-    <h2>{{ steps[currentStep].title }}</h2>
+    <h2 v-if="steps[currentStep] != undefined">{{ steps[currentStep].title }}</h2>
 
     <p>How would you rate this area of your life?</p>
 
     <div class="text-center">
       <Number v-for="score in 10" @click.native="submitScore(score)">{{ score }}</Number>
     </div>
-
-    {{ steps }}
-
-    <table>
-      <thead>
-        <tr>
-          <th v-for="step in steps">
-            {{ step.title }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td v-for="step in steps">
-            {{ step.score }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
     <svg :width="width" :height="height">
       <g :transform="`translate(${width / 2}, ${height / 2})`">
@@ -37,10 +18,18 @@
         :fill="step.color"
         class="solidArc"
         stroke="gray"
-        :d="drawArc"
+        :d="step.solidArc"
         >
 
         </path>
+
+        <text
+        v-for="step in steps"
+        v-if="step.score >= 1"
+        :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
+        >
+          <tspan>{{ step.title }} </tspan> <tspan style="font-weight: bold;">{{ step.score }}</tspan>
+        </text>
       </g>
     </svg>
 
@@ -63,75 +52,112 @@ export default {
     return {
       width: 500,
       height: 500,
+      radius: 0,
+      innerRadius: 0,
       currentStep: 0,
-      radius: Math.min(this.width, this.height) / 2,
-      innerRadius: 0.1 * this.radius,
-      d3: d3,
       steps: [
         {
           'id': 0,
           'title': 'Health',
-          'score': '3',
+          'score': 0.5,
           'weight': '1',
-          'color': '#FEC574'
+          'color': '#FEC574',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         },
         {
           'id': 1,
           'title': 'Career',
-          'score': '8',
+          'score': 0.5,
           'weight': '1',
-          'color': '#FAE38C'
+          'color': '#FAE38C',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         },
         {
           'id': 2,
           'title': 'Love',
-          'score': '',
+          'score': 0.5,
           'weight': '1',
-          'color': '#EAF195'
+          'color': '#EAF195',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         },
         {
           'id': 3,
           'title': 'Spirituality',
-          'score': '',
+          'score': 0.5,
           'weight': '1',
-          'color': '#C7E89E'
+          'color': '#C7E89E',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         },
         {
           'id': 4,
           'title': 'Family',
-          'score': '',
+          'score': 0.5,
           'weight': '1',
-          'color': '#9CD6A4'
+          'color': '#9CD6A4',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         },
         {
           'id': 5,
           'title': 'Money',
-          'score': '',
+          'score': 0.5,
           'weight': '1',
-          'color': '#6CC4A4'
+          'color': '#6CC4A4',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         },
         {
           'id': 6,
           'title': 'Fun',
-          'score': '',
+          'score': 0.5,
           'weight': '1',
-          'color': '#4D9DB4'
+          'color': '#4D9DB4',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         },
         {
           'id': 7,
           'title': 'Friends',
-          'score': '',
+          'score': 0.5,
           'weight': '1',
-          'color': '#4776B4'
+          'color': '#4776B4',
+          'solidArc': '',
+          'textTranslateValue': {
+            'x': 0,
+            'y': 0
+          }
         }
       ]
     }
   },
 
   computed: {
-    drawArc: d3.arc().innerRadius(this.innerRadius).outerRadius(function (d) {
-      return (this.radius - this.innerRadius) * (this.steps[this.currentStep].score / 100.0) + this.innerRadius
-    })
+
   },
 
   methods: {
@@ -151,6 +177,53 @@ export default {
 
     updateChart: function (score) {
       this.steps[this.currentStep].score = score
+
+      this.something()
+    },
+
+    something: function () {
+      const that = this
+
+      this.steps.forEach(function (d) {
+        d.color = d.color
+        d.weight = +d.weight
+        d.score = +d.score
+        d.width = +d.weight
+      })
+
+      // var pie = d3.pie()
+      //   .sort(null)
+      //   .value(function (d) { return d.weight })
+
+      var segments = this.steps.map(function (d) { return d.weight })
+
+      var pieData = d3.pie()(segments)
+
+      pieData.forEach(function (arcItem, i) {
+        var outerRadius = function () {
+          return (that.radius - that.innerRadius) * (that.steps[i].score / 20.0) + that.innerRadius
+        }
+
+        var arc = d3.arc()
+          .innerRadius(25)
+          .outerRadius(outerRadius())
+          .startAngle(arcItem.startAngle)
+          .endAngle(arcItem.endAngle)
+
+        that.steps[i].solidArc = arc()
+
+        that.steps[i].textTranslateValue.x = (that.radius - 12) * Math.sin(((arcItem.endAngle - arcItem.startAngle) / 2) + arcItem.startAngle)
+
+        that.steps[i].textTranslateValue.y = (-1 * (that.radius - 12) * Math.cos(((arcItem.endAngle - arcItem.startAngle) / 2) + arcItem.startAngle))
+
+        // var testArc = d3.arc()
+        //   .innerRadius(25)
+        //   .outerRadius(250)
+        //   .startAngle(5.497787143782138)
+        //   .endAngle(6.283185307179586)
+
+        // console.log(testArc())
+      })
     }
 
   },
@@ -159,56 +232,50 @@ export default {
     // window.addEventListener('resize', this.onResize)
     // this.onResize()
 
-    var width = 500
-    var height = 500
-    var radius = Math.min(width, height) / 2
-    var innerRadius = 0.1 * radius
+    this.radius = Math.min(this.width, this.height) / 2
 
-    var pie = d3.pie()
-      .sort(null)
-      .value(function (d) { return d.width })
+    this.innerRadius = 0.1 * this.radius
 
-    var arc = d3.arc()
-      .innerRadius(innerRadius)
-      .outerRadius(function (d) {
-        return (radius - innerRadius) * (d.data.score / 100.0) + innerRadius
-      })
+    this.something()
 
-    var outlineArc = d3.arc()
-      .innerRadius(innerRadius)
-      .outerRadius(radius)
+    // var pie = d3.pie()
+    //   .sort(null)
+    //   .value(function (d) { return d.width })
 
-    var svg = d3.select('svg g')
+    // var arc = d3.arc()
+    //   .innerRadius(innerRadius)
+    //   .outerRadius(function (d) {
+    //     return (radius - innerRadius) * (d.data.score / 100.0) + innerRadius
+    //   })
+
+    // var svg = d3.select('svg g')
     // .attr('width', width)
     // .attr('height', height)
     // .append('g')
     // .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
 
-    this.steps.forEach(function (d) {
-      d.color = d.color
-      d.weight = +d.weight
-      d.score = +d.score
-      d.width = +d.weight
-    })
+    // this.steps.forEach(function (d) {
+    //   d.color = d.color
+    //   d.weight = +d.weight
+    //   d.score = +d.score
+    //   d.width = +d.weight
+    // })
     // for (var i = 0; i < data.score; i++) { console.log(data[i].id) }
 
     // eslint-disable-next-line no-unused-vars
-    var path = svg.selectAll('.solidArc')
-      .data(pie(this.steps))
-      .enter().append('path')
-      .attr('fill', function (d) { return d.data.color })
-      .attr('class', 'solidArc')
-      .attr('stroke', 'gray')
-      .attr('d', arc)
-
-    // eslint-disable-next-line no-unused-vars
-    var outerPath = svg.selectAll('.outlineArc')
-      .data(pie(this.steps))
-      .enter().append('path')
-      .attr('fill', 'none')
-      .attr('stroke', 'none')
-      .attr('class', 'outlineArc')
-      .attr('d', outlineArc)
+    // var path = d3.select('svg g')
+    //   .selectAll('.solidArc')
+    //   .data(pie(this.steps))
+    //   .enter().append('path')
+    //   .attr('fill', function (d) { return d.data.color })
+    //   .attr('class', 'solidArc')
+    //   .attr('stroke', 'gray')
+    //   .attr('d', d3.arc()
+    //     .innerRadius(this.innerRadius)
+    //     .outerRadius(function (d) {
+    //       return (this.radius - this.innerRadius) * (d.data.score / 100.0) + this.innerRadius
+    //     })
+    //   )
 
     // // calculate the weighted mean score
     // var score =
