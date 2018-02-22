@@ -17,19 +17,23 @@
         v-for="step in steps"
         :fill="step.color"
         class="solidArc"
-        stroke="gray"
+        stroke="white"
         :d="step.solidArc"
         >
 
         </path>
 
-        <text
-        v-for="step in steps"
-        v-if="step.score >= 1"
-        :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
-        >
-          <tspan>{{ step.title }} </tspan> <tspan style="font-weight: bold;">{{ step.score }}</tspan>
-        </text>
+        <transition-group name="fade" tag="g">
+          <text
+          v-for="step in steps"
+          v-if="step.score >= 1"
+          :key="step.id"
+          :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
+          :style="`text-anchor: ${step.textAnchor}`"
+          >
+            <tspan>{{ step.title }} </tspan> <tspan style="font-weight: bold;">{{ step.score }}</tspan>
+          </text>
+        </transition-group>
       </g>
     </svg>
 
@@ -66,7 +70,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'middle'
         },
         {
           'id': 1,
@@ -78,7 +83,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'start'
         },
         {
           'id': 2,
@@ -90,7 +96,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'start'
         },
         {
           'id': 3,
@@ -102,7 +109,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'middle'
         },
         {
           'id': 4,
@@ -114,7 +122,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'middle'
         },
         {
           'id': 5,
@@ -126,7 +135,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'end'
         },
         {
           'id': 6,
@@ -138,7 +148,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'end'
         },
         {
           'id': 7,
@@ -150,7 +161,8 @@ export default {
           'textTranslateValue': {
             'x': 0,
             'y': 0
-          }
+          },
+          'textAnchor': 'middle'
         }
       ]
     }
@@ -201,7 +213,7 @@ export default {
 
       pieData.forEach(function (arcItem, i) {
         var outerRadius = function () {
-          return (that.radius - that.innerRadius) * (that.steps[i].score / 20.0) + that.innerRadius
+          return (that.radius - that.innerRadius) * (that.steps[i].score / 12.0) + that.innerRadius
         }
 
         var arc = d3.arc()
