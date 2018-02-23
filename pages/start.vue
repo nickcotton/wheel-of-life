@@ -1,41 +1,72 @@
 <template>
   <div>
-    <h1>Wheel of Life</h1>
+    <nav class="flex items-center justify-between flex-wrap bg-purple-light p-6 mb-8">
+      <div class="flex items-center flex-no-shrink text-white mr-6">
+        <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
+        <span class="font-semibold text-xl tracking-tight">Wheel of Life</span>
+      </div>
+      <div class="block lg:hidden">
+        <button class="flex items-center px-3 py-2 border rounded text-purple-lighter border-purple-lighter hover:text-white hover:border-white">
+          <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+        </button>
+      </div>
+      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+        <div class="text-sm lg:flex-grow">
+          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lightest hover:text-white mr-4">
+            Docs
+          </a>
+          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lightest hover:text-white mr-4">
+            Examples
+          </a>
+          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lightest hover:text-white">
+            Blog
+          </a>
+        </div>
+        <div>
+          <a href="#" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-purple hover:bg-white mt-4 lg:mt-0">Download</a>
+        </div>
+      </div>
+    </nav>
 
-    <h2 v-if="steps[currentStep] != undefined">{{ steps[currentStep].title }}</h2>
+    <section class="container mx-auto">
+      <h2
+      v-if="steps[currentStep] != undefined"
+      class="text-center text-2xl md:text-3xl mb-4"
+      >{{ steps[currentStep].title }}</h2>
 
-    <p>How would you rate this area of your life?</p>
+      <p class="text-center text-xl mb-4">How would you rate this area of your life?</p>
 
-    <div class="text-center">
-      <Number v-for="score in 10" @click.native="submitScore(score)">{{ score }}</Number>
-    </div>
+      <div class="text-center mb-4 lg:mb-8">
+        <Number v-for="score in 10" @click.native="submitScore(score)">{{ score }}</Number>
+      </div>
 
-    <svg :width="width" :height="height">
-      <g :transform="`translate(${width / 2}, ${height / 2})`">
+      <svg :width="width" :height="height">
+        <g :transform="`translate(${width / 2}, ${height / 2})`">
 
-        <path
-        v-for="step in steps"
-        :fill="step.color"
-        class="solidArc"
-        stroke="white"
-        :d="step.solidArc"
-        >
-
-        </path>
-
-        <transition-group name="fade" tag="g">
-          <text
+          <path
           v-for="step in steps"
-          v-if="step.score >= 1"
-          :key="step.id"
-          :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
-          :style="`text-anchor: ${step.textAnchor}`"
+          :fill="step.color"
+          class="solidArc"
+          stroke="white"
+          :d="step.solidArc"
           >
-            <tspan>{{ step.title }} </tspan> <tspan style="font-weight: bold;">{{ step.score }}</tspan>
-          </text>
-        </transition-group>
-      </g>
-    </svg>
+
+          </path>
+
+          <transition-group name="fade" tag="g">
+            <text
+            v-for="step in steps"
+            v-if="step.score >= 1"
+            :key="step.id"
+            :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
+            :style="`text-anchor: ${step.textAnchor}`"
+            >
+              <tspan>{{ step.title }} </tspan> <tspan style="font-weight: bold;">{{ step.score }}</tspan>
+            </text>
+          </transition-group>
+        </g>
+      </svg>
+    </section>
 
   </div>
 </template>
@@ -173,10 +204,10 @@ export default {
   },
 
   methods: {
-    // onResize () {
-    //   this.width = this.$el.offsetWidth
-    //   this.height = this.$el.offsetHeight
-    // },
+    onResize () {
+      this.width = this.$el.offsetWidth
+      // this.height = this.$el.offsetHeight
+    },
 
     submitScore: function (score) {
       this.updateChart(score)
@@ -249,6 +280,9 @@ export default {
     this.innerRadius = 0.1 * this.radius
 
     this.something()
+
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
 
     // var pie = d3.pie()
     //   .sort(null)
