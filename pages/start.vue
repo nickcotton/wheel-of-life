@@ -23,7 +23,8 @@
       <svg
       :width="width"
       :height="height"
-      id="wheel">
+      id="wheel"
+      class="block mx-auto">
         <g :transform="`translate(${width / 2}, ${height / 2})`">
 
           <path
@@ -265,7 +266,7 @@ export default {
 
   methods: {
     onResize () {
-      this.width = document.getElementById('container').offsetWidth
+      this.width = Math.min(document.getElementById('container').offsetWidth, 768)
       // this.height = this.$el.offsetHeight
     },
 
@@ -285,7 +286,9 @@ export default {
     },
 
     savePng: function () {
-      saveSvgAsPng.saveSvgAsPng(document.getElementById('wheel'), 'diagram.png')
+      saveSvgAsPng.saveSvgAsPng(document.getElementById('wheel'), 'diagram.png', {
+        backgroundColor: 'white'
+      })
     },
 
     something: function () {
