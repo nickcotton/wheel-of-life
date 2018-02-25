@@ -19,7 +19,7 @@
       </div>
     </nav>
 
-    <section class="container mx-auto">
+    <section id="container" class="container mx-auto">
       <svg
       :width="width"
       :height="height"
@@ -265,7 +265,7 @@ export default {
 
   methods: {
     onResize () {
-      this.width = this.$el.offsetWidth
+      this.width = document.getElementById('container').offsetWidth
       // this.height = this.$el.offsetHeight
     },
 
