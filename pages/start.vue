@@ -64,6 +64,24 @@
       </div>
     </section>
 
+    <div class="container mx-auto">
+      <div class="flex -mx-4">
+        <div class="w-1/4 px-4">
+          <div class="p-4 bg-grey-lighter">
+            <h3 class="font-bold text-xl mb-2">Email</h3>
+            <p class="text-grey-darker text-base">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            </p>
+            <p>
+              <button class="flex-no-shrink bg-purple hover:bg-purple-light border-purple hover:border-purple-light text-sm border-4 text-white py-1 px-2 rounded" type="button" @click="createPngUri">
+                Save
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <transition name="fade">
       <section class="container mx-auto" v-if="steps[currentStep] == undefined">
         <h2
@@ -290,6 +308,19 @@ export default {
         backgroundColor: 'white'
       })
     },
+
+    createPngUri: function () {
+      saveSvgAsPng.svgAsPngUri(document.getElementById('wheel'), {
+        backgroundColor: 'white'
+      }, function (uri) {
+        alert(uri)
+      })
+    },
+
+    // Take URI
+    // Save to firebase in storage using putString(message, 'data_url')
+    // Send email address too
+    // Somehow get them into mailgun
 
     something: function () {
       const that = this
