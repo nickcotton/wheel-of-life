@@ -7,7 +7,8 @@ const admin = require('firebase-admin');
 // const swuApiKey = 'live_23fe389b7297e8c6ee21502cb2fc02ae3358f0cc'
 
 // Test SWU API Key
-const swuApiKey = 'test_4360c2f9fd77bc03c389de82c5c66817f0080e95'
+// const swuApiKey = 'test_4360c2f9fd77bc03c389de82c5c66817f0080e95'
+const swuApiKey = functions.config().sendwithus.key
 
 var api = require('sendwithus')(swuApiKey)
 

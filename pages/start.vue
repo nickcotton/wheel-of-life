@@ -34,7 +34,7 @@
       </svg>
     </section>
 
-    <section class="container mx-auto" v-if="steps[currentStep] != undefined">
+    <section class="container mx-auto mb-8" v-if="steps[currentStep] != undefined">
       <h2
       class="text-center text-2xl md:text-3xl mb-4"
       >{{ steps[currentStep].title }}</h2>
@@ -47,13 +47,13 @@
     </section>
 
     <transition name="fade">
-      <section class="container mx-auto" v-if="steps[currentStep] == undefined">
+      <section class="container mx-auto mb-8" v-if="steps[currentStep] == undefined">
         <div class="sm:w-1/2 mx-auto bg-purple-lightest p-8 mt-8">
           <h2
           class="text-center text-2xl md:text-3xl mb-4"
           >Done!</h2>
 
-          <p class="text-center text-xl mb-4">Have your wheel emailed to you.</p>
+          <p class="text-center text-xl mb-4">Have your results emailed to you.</p>
 
           <form class="w-full max-w-sm mx-auto" @submit.prevent="handleEmailForm">
             <div class="flex items-center border-b border-b-2 border-purple py-2">
@@ -75,12 +75,14 @@
       </section>
     </transition>
 
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Navbar from '~/components/Navbar.vue'
 import Number from '~/components/Number.vue'
+import Footer from '~/components/Footer.vue'
 import * as d3 from 'd3'
 import firebase from 'firebase'
 import '@firebase/firestore'
@@ -90,7 +92,8 @@ import * as saveSvgAsPng from 'save-svg-as-png'
 export default {
   components: {
     Navbar,
-    Number
+    Number,
+    Footer
   },
 
   data: function () {

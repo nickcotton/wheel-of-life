@@ -17,7 +17,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#9561e2' },
 
   env: {
     APIKEY: 'AIzaSyDRN8MAXaQvnhjaCJ8ZBe7_Xuj16bqEFuk',
