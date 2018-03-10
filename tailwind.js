@@ -129,6 +129,10 @@ var colors = {
 
 module.exports = {
 
+  modules: {
+    opacity: ['hover']
+  },
+
   /*
   |-----------------------------------------------------------------------------
   | Colors                                  https://tailwindcss.com/docs/colors

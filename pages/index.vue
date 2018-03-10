@@ -29,7 +29,7 @@
         </ul>
         <p class="mb-4">Your answers will be plotted on the wheel for you to review.</p>
         <p class="mb-4">What's great about this tool is that you can use it again and again to re-assess and monitor the improvement in areas you find challenging.</p>
-        <button @click="$router.push('/start')" class="bg-purple mt-4 hover:bg-purple-dark text-white font-bold py-2 px-4 rounded">Get started</button>
+        <button @click="$router.push('/start')" class="bg-purple mt-4 hover:bg-purple-dark text-white font-semibold py-2 px-4 rounded">Get started</button>
       </div>
 
     </div>
