@@ -2,9 +2,14 @@
 const functions = require('firebase-functions');
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
-const apiKey = 'key-331898d89fe47aebbae42d2cff7b17ec';
-const domain = 'sandbox8252a475e39b437894142bb3a09b07bf.mailgun.org';
-var mailgun = require('mailgun-js')({apiKey, domain})
+
+// Live SWU API Key
+// const swuApiKey = 'live_23fe389b7297e8c6ee21502cb2fc02ae3358f0cc'
+
+// Test SWU API Key
+const swuApiKey = 'test_4360c2f9fd77bc03c389de82c5c66817f0080e95'
+
+var api = require('sendwithus')(swuApiKey)
 
 // Create and Deploy Your First Cloud Functions
 // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -34,18 +39,36 @@ exports.makeUppercase = functions.database.ref('/messages/{pushId}/original').on
   return event.data.ref.parent.child('uppercase').set(uppercase);
 });
 
-exports.sendTestEmail = functions.https.onRequest((req, res) => {
-  var data = {
-    from: 'Excited User <me@samples.mailgun.org>',
-    to: 'nick.c.cotton+aw@gmail.com',
-    subject: 'Hello',
-    text: 'Testing some Mailgun awesomeness!'
-  };
+exports.sendEmail = functions.firestore
+  .document('users/{userId}')
+  .onCreate(event => {
+    // Get an object representing the document
+    // e.g. {'email': 'x@x.com', 'image_url': 'string'}
+    const user = event.data.data();
 
-  mailgun.messages().send(data, (error, body) => {
-    if (error) {
-      return
+    // access a particular field as you would any JS property
+    const email = user.email;
+    const image_url = user.image_url;
+
+    api.send({
+      template: 'tem_VkmCXPBdS9VbprHtWRBmHWhY',
+      recipient: {
+        address: email
+      },
+      template_data: {
+        image_url: image_url
+      }
+    });
+  })
+
+exports.sendTestEmail = functions.https.onRequest((req, res) => {
+  api.send({
+    template: 'tem_VkmCXPBdS9VbprHtWRBmHWhY',
+    recipient: {
+      address: 'us@sendwithus.com'
+    },
+    template_data: {
+      image_url: 'https://firebasestorage.googleapis.com/v0/b/wheel-of-life-fbfad.appspot.com/o/images%2Fwheel-1520697290?alt=media&token=106036f7-35d3-43c1-b060-0671ee02ead6'
     }
-    console.log(body);
   });
 })

@@ -1,24 +1,6 @@
 <template>
   <div>
-    <nav class="flex items-center justify-between flex-wrap bg-purple-light p-6 mb-8">
-      <div class="flex items-center flex-no-shrink text-white mr-6">
-        <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
-        <span class="font-semibold text-xl tracking-tight">Wheel of Life</span>
-      </div>
-      <div class="block lg:hidden">
-        <button class="flex items-center px-3 py-2 border rounded text-purple-lighter border-purple-lighter hover:text-white hover:border-white">
-          <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-        </button>
-      </div>
-      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-        <div class="text-sm lg:flex-grow">
-          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lightest hover:text-white mr-4">
-            About
-          </a>
-        </div>
-      </div>
-    </nav>
-
+    <Navbar></Navbar>
     <section id="container" class="container mx-auto">
       <svg
       :width="width"
@@ -64,24 +46,6 @@
       </div>
     </section>
 
-    <div class="container mx-auto">
-      <div class="flex -mx-4">
-        <div class="w-1/4 px-4">
-          <div class="p-4 bg-grey-lighter">
-            <h3 class="font-bold text-xl mb-2">Email</h3>
-            <p class="text-grey-darker text-base">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            </p>
-            <p>
-              <button class="flex-no-shrink bg-purple hover:bg-purple-light border-purple hover:border-purple-light text-sm border-4 text-white py-1 px-2 rounded" type="button" @click="createPngUri">
-                Save
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <transition name="fade">
       <section class="container mx-auto" v-if="steps[currentStep] == undefined">
         <h2
@@ -90,10 +54,18 @@
 
         <p class="text-center text-xl mb-4">Have your wheel emailed to you.</p>
 
-        <form class="w-full max-w-sm mx-auto">
+        <form class="w-full max-w-sm mx-auto" @submit.prevent="handleEmailForm">
           <div class="flex items-center border-b border-b-2 border-purple py-2">
-            <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2" type="email" placeholder="Email address" aria-label="Email address">
-            <button class="flex-no-shrink bg-purple hover:bg-purple-light border-purple hover:border-purple-light text-sm border-4 text-white py-1 px-2 rounded" type="button">
+            <input
+              class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2"
+              type="email"
+              placeholder="Email address"
+              aria-label="Email address"
+              v-model.trim="user.email"
+            >
+            <button
+              class="flex-no-shrink bg-purple hover:bg-purple-light border-purple hover:border-purple-light text-sm border-4 text-white py-1 px-2 rounded"
+              type="submit">
               Send
             </button>
           </div>
@@ -101,64 +73,21 @@
       </section>
     </transition>
 
-    <!-- <transition name="fade">
-      <section class="container mx-auto" v-if="steps[currentStep] == undefined">
-        <h2
-        class="text-center text-2xl md:text-3xl mb-4"
-        >Done!</h2>
-
-        <p class="text-center text-xl mb-4">Download your wheel or have it emailed to you.</p>
-
-        <div class="flex -mx-4">
-          <div class="w-1/4 px-4">
-            <div class="p-4 bg-grey-lighter">
-              <h3 class="font-bold text-xl mb-2">Email</h3>
-              <p class="text-grey-darker text-base">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-            </div>
-          </div>
-          <div class="w-1/4 px-4">
-            <div class="p-4 bg-grey-lighter">
-              <h3 class="font-bold text-xl mb-2">Download</h3>
-              <p class="text-grey-darker text-base">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-            </div>
-          </div>
-          <div class="w-1/4 px-4">
-            <div class="p-4 bg-grey-lighter">
-              <h3 class="font-bold text-xl mb-2">Share</h3>
-              <p class="text-grey-darker text-base">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-            </div>
-          </div>
-          <div class="w-1/4 px-4">
-            <div class="p-4 bg-grey-lighter">
-              <h3 class="font-bold text-xl mb-2">Print</h3>
-              <p class="text-grey-darker text-base">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </transition> -->
-
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Navbar from '~/components/Navbar.vue'
 import Number from '~/components/Number.vue'
 import * as d3 from 'd3'
+import firebase from 'firebase'
+import '@firebase/firestore'
 import * as saveSvgAsPng from 'save-svg-as-png'
 // import TWEEN from 'tween.js'
 
 export default {
   components: {
-    Logo,
+    Navbar,
     Number
   },
 
@@ -169,6 +98,10 @@ export default {
       radius: 0,
       innerRadius: 0,
       currentStep: 0,
+      user: {
+        email: 'someone@thing.com',
+        image_url: ''
+      },
       steps: [
         {
           'id': 0,
@@ -303,24 +236,33 @@ export default {
       this.something()
     },
 
-    savePng: function () {
-      saveSvgAsPng.saveSvgAsPng(document.getElementById('wheel'), 'diagram.png', {
-        backgroundColor: 'white'
-      })
-    },
+    handleEmailForm: function () {
+      const that = this
 
-    createPngUri: function () {
+      var timeStamp = Math.floor(Date.now() / 1000)
+      var imageName = `images/wheel-${timeStamp}`
+      const imagesRef = firebase.storage().ref().child(imageName)
+      const db = firebase.firestore()
+
       saveSvgAsPng.svgAsPngUri(document.getElementById('wheel'), {
         backgroundColor: 'white'
       }, function (uri) {
-        alert(uri)
+        imagesRef.putString(uri, 'data_url').then(function (snapshot) {
+          console.log(`Uploaded! URL: ${snapshot.downloadURL}`)
+
+          db.collection('users').add({
+            email: that.user.email,
+            image_url: snapshot.downloadURL
+          })
+            .then(function (docRef) {
+              console.log('Document written with ID: ', docRef.id)
+            })
+            .catch(function (error) {
+              console.error('Error adding document: ', error)
+            })
+        })
       })
     },
-
-    // Take URI
-    // Save to firebase in storage using putString(message, 'data_url')
-    // Send email address too
-    // Somehow get them into mailgun
 
     something: function () {
       const that = this
@@ -361,6 +303,19 @@ export default {
     this.radius = Math.min(this.width, this.height) / 2
 
     this.innerRadius = 0.1 * this.radius
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(
+        {
+          apiKey: process.env.APIKEY,
+          authDomain: process.env.AUTHDOMAIN,
+          databaseURL: process.env.DATABASEURL,
+          projectId: process.env.PROJECTID,
+          storageBucket: process.env.STORAGEBUCKET,
+          messagingSenderId: process.env.MESSAGINGSENDERID
+        }
+      )
+    }
 
     this.something()
 
