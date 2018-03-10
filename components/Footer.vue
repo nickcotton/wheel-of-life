@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-grey-lighter h-64 py-8 flex flex-col justify-between">
+  <footer class="bg-grey-lighter h-48 py-8 flex flex-col justify-between">
     <p class="text-center">
       <span class="inline-block">
         <a href="https://facebook.com/FatGirlYogi/">

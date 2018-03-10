@@ -12,8 +12,8 @@
       </div>
       <div class="header-curve"></div>
     </div>
-    <div class="container mx-auto py-8">
-      <div class="w-1/2 mx-auto">
+    <div class="container mx-auto py-8 px-4">
+      <div class="sm:w-3/4 md:w-1/2 mx-auto">
         <p class="mb-4">The Wheel of Life is a simple yet powerful visual representation of all areas of your life. It gives you a quick snapshot of the areas that are flourishing and the areas that may need more focus and attention.</p>
         <p class="mb-4">Click get started to take the quiz, it will take you about a minute to complete the quiz and your results are automatically emailed to you.</p>
         <p class="mb-2">You will be asked to rate each major aspect of your life on a scale of 1 – 10, this includes:</p>

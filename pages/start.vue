@@ -48,28 +48,30 @@
 
     <transition name="fade">
       <section class="container mx-auto" v-if="steps[currentStep] == undefined">
-        <h2
-        class="text-center text-2xl md:text-3xl mb-4"
-        >Done!</h2>
+        <div class="sm:w-1/2 mx-auto bg-purple-lightest p-8 mt-8">
+          <h2
+          class="text-center text-2xl md:text-3xl mb-4"
+          >Done!</h2>
 
-        <p class="text-center text-xl mb-4">Have your wheel emailed to you.</p>
+          <p class="text-center text-xl mb-4">Have your wheel emailed to you.</p>
 
-        <form class="w-full max-w-sm mx-auto" @submit.prevent="handleEmailForm">
-          <div class="flex items-center border-b border-b-2 border-purple py-2">
-            <input
-              class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2"
-              type="email"
-              placeholder="Email address"
-              aria-label="Email address"
-              v-model.trim="user.email"
-            >
-            <button
-              class="flex-no-shrink bg-purple hover:bg-purple-light border-purple hover:border-purple-light text-sm border-4 text-white py-1 px-2 rounded"
-              type="submit">
-              Send
-            </button>
-          </div>
-        </form>
+          <form class="w-full max-w-sm mx-auto" @submit.prevent="handleEmailForm">
+            <div class="flex items-center border-b border-b-2 border-purple py-2">
+              <input
+                class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2"
+                type="email"
+                placeholder="Email address"
+                aria-label="Email address"
+                v-model.trim="user.email"
+              >
+              <button
+                class="flex-no-shrink bg-purple hover:bg-purple-light border-purple hover:border-purple-light text-sm border-4 text-white py-1 px-2 rounded"
+                type="submit">
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
     </transition>
 
@@ -99,7 +101,7 @@ export default {
       innerRadius: 0,
       currentStep: 0,
       user: {
-        email: 'someone@thing.com',
+        email: '',
         image_url: ''
       },
       steps: [
