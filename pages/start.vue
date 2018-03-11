@@ -23,6 +23,7 @@
             <text
             v-for="step in steps"
             v-if="step.score >= 1"
+            font-size="14px"
             :key="step.id"
             :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
             :style="`text-anchor: ${step.textAnchor}`"
@@ -87,7 +88,6 @@ import * as d3 from 'd3'
 import firebase from 'firebase'
 import '@firebase/firestore'
 import * as saveSvgAsPng from 'save-svg-as-png'
-// import TWEEN from 'tween.js'
 
 export default {
   components: {
@@ -136,7 +136,7 @@ export default {
         },
         {
           'id': 2,
-          'title': 'Love',
+          'title': 'Family & Friends',
           'score': 0.5,
           'weight': '1',
           'color': '#EAF195',
@@ -149,7 +149,7 @@ export default {
         },
         {
           'id': 3,
-          'title': 'Spirituality',
+          'title': 'Significant Other/Romance',
           'score': 0.5,
           'weight': '1',
           'color': '#C7E89E',
@@ -162,7 +162,7 @@ export default {
         },
         {
           'id': 4,
-          'title': 'Family',
+          'title': 'Fun & Recreation',
           'score': 0.5,
           'weight': '1',
           'color': '#9CD6A4',
@@ -188,7 +188,7 @@ export default {
         },
         {
           'id': 6,
-          'title': 'Fun',
+          'title': 'Personal Development',
           'score': 0.5,
           'weight': '1',
           'color': '#4D9DB4',
@@ -201,7 +201,7 @@ export default {
         },
         {
           'id': 7,
-          'title': 'Friends',
+          'title': 'Physical Environment',
           'score': 0.5,
           'weight': '1',
           'color': '#4776B4',
