@@ -23,7 +23,7 @@
             <text
             v-for="step in steps"
             v-if="step.score >= 1"
-            font-size="14px"
+            font-size="12px"
             :key="step.id"
             :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
             :style="`text-anchor: ${step.textAnchor}`"
@@ -42,8 +42,14 @@
 
       <p class="text-center text-xl mb-4">How would you rate this area of your life?</p>
 
-      <div class="text-center mb-4 lg:mb-8">
-        <Number v-for="score in 10" @click.native="submitScore(score)">{{ score }}</Number>
+      <div class="flex flex-wrap md:block text-center mb-4 lg:mb-8">
+        <Number
+          v-for="score in 10"
+          :key="score"
+          @click.native="submitScore(score)"
+        >
+          {{ score }}
+        </Number>
       </div>
     </section>
 
@@ -216,14 +222,10 @@ export default {
     }
   },
 
-  computed: {
-
-  },
-
   methods: {
-    onResize () {
+    onResize: function () {
       this.width = Math.min(document.getElementById('container').offsetWidth, 768)
-      // this.height = this.$el.offsetHeight
+      this.radius = Math.min(this.width, this.height) / 2
     },
 
     submitScore: function (score) {
