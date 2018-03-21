@@ -6,7 +6,15 @@
       :width="width"
       :height="height"
       id="wheel"
-      class="block mx-auto">
+      class="block mx-auto"
+      :viewBox="`0, 0, ${width}, ${height}`"
+      perserveAspectRatio="xMinYMid">
+        <g :transform="`translate(${width / 2}, ${height / 2})`">
+
+          <circle v-for="i in 5" cx="0" cy="0" :r="( ((radius - innerRadius) * (i*2/12)) + innerRadius)" fill="none" class="text-grey-light stroke-current" />
+
+        </g>
+
         <g :transform="`translate(${width / 2}, ${height / 2})`">
 
           <path
@@ -28,7 +36,7 @@
             :transform="`translate(${step.textTranslateValue.x}, ${step.textTranslateValue.y})`"
             :style="`text-anchor: ${step.textAnchor}`"
             >
-              <tspan>{{ step.title }} </tspan> <tspan style="font-weight: bold;">{{ step.score }}</tspan>
+              <tspan class="hidden md:inline">{{ step.title }} </tspan> <tspan style="font-weight: bold;">{{ step.score }}</tspan>
             </text>
           </transition-group>
         </g>
@@ -226,6 +234,7 @@ export default {
     onResize: function () {
       this.width = Math.min(document.getElementById('container').offsetWidth, 768)
       this.radius = Math.min(this.width, this.height) / 2
+      this.innerRadius = 0.1 * this.radius
     },
 
     submitScore: function (score) {
