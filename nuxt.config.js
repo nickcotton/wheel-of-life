@@ -7,10 +7,17 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'msapplication-TileColor', content: '#603cba' },
+      { name: 'theme-color', content: '#ffffff' },
       { hid: 'description', name: 'description', content: 'The Wheel of Life is a simple yet powerful visual representation of all areas of your life. It gives you a quick snapshot of the areas that are flourishing and the areas that may need more focus and attention.' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+
+      { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', href: '/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', href: '/favicon-16x16.png' },
+      { rel: 'manifest', href: '/site.webmanifest' },
+      { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#603cba' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:400,700' }
     ]
   },
