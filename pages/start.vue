@@ -21,6 +21,7 @@
           v-for="step in steps"
           :fill="step.color"
           class="solidArc"
+          :key="step.id"
           stroke="white"
           :d="step.solidArc"
           >
@@ -235,6 +236,7 @@ export default {
       this.width = Math.min(document.getElementById('container').offsetWidth, 768)
       this.radius = Math.min(this.width, this.height) / 2
       this.innerRadius = 0.1 * this.radius
+      this.something()
     },
 
     submitScore: function (score) {
