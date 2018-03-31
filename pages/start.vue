@@ -9,7 +9,7 @@
       class="block mx-auto"
       :viewBox="`0, 0, ${width}, ${height}`"
       perserveAspectRatio="xMinYMid">
-        <g :transform="`translate(${width / 2}, ${(height / 2) + 70})`">
+        <g :transform="`translate(${width / 2}, ${(width / 2)})`">
 `
           <circle v-for="i in 5" cx="0" cy="0" :r="( ((radius - innerRadius) * (i*2/12)) + innerRadius)" fill="none" class="text-grey-light stroke-current" />
 
@@ -21,7 +21,7 @@
           rx="4"
           ry="4"
           x="8"
-          y="8"
+          :y="`${width + 16}`"
           fill="none"
           class="inline-block md:hidden text-grey-light stroke-current"
         >
@@ -30,7 +30,7 @@
         <g
           v-for="step in steps"
           class="legend inline-block md:hidden"
-          :transform="`translate(${(Math.floor(step.id / 4) * radius) + 16}, ${(Math.floor(step.id % 4) * 15) + 16})`"
+          :transform="`translate(${(Math.floor(step.id / 4) * radius) + 16}, ${(Math.floor(step.id % 4) * 15) + 24 + width})`"
         >
             <rect
               width="10"
@@ -50,7 +50,7 @@
         </g>
 
 
-        <g :transform="`translate(${width / 2}, ${(height / 2) + 70})`">
+        <g :transform="`translate(${width / 2}, ${(width / 2)})`">
 
           <path
           v-for="step in steps"
