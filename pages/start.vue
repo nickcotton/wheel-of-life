@@ -9,13 +9,48 @@
       class="block mx-auto"
       :viewBox="`0, 0, ${width}, ${height}`"
       perserveAspectRatio="xMinYMid">
-        <g :transform="`translate(${width / 2}, ${height / 2})`">
-
+        <g :transform="`translate(${width / 2}, ${(height / 2) + 70})`">
+`
           <circle v-for="i in 5" cx="0" cy="0" :r="( ((radius - innerRadius) * (i*2/12)) + innerRadius)" fill="none" class="text-grey-light stroke-current" />
 
         </g>
 
-        <g :transform="`translate(${width / 2}, ${height / 2})`">
+        <rect
+          :width="width - 16"
+          height="76"
+          rx="4"
+          ry="4"
+          x="8"
+          y="8"
+          fill="none"
+          class="inline-block md:hidden text-grey-light stroke-current"
+        >
+        </rect>
+
+        <g
+          v-for="step in steps"
+          class="legend inline-block md:hidden"
+          :transform="`translate(${(Math.floor(step.id / 4) * radius) + 16}, ${(Math.floor(step.id % 4) * 15) + 16})`"
+        >
+            <rect
+              width="10"
+              height="10"
+              :fill="step.color"
+            >
+
+            </rect>
+
+            <text
+              font-size="12px"
+              x="16"
+              y="10"
+            >
+              {{ step.shortTitle || step.title }}
+            </text>
+        </g>
+
+
+        <g :transform="`translate(${width / 2}, ${(height / 2) + 70})`">
 
           <path
           v-for="step in steps"
@@ -165,6 +200,7 @@ export default {
         {
           'id': 3,
           'title': 'Significant Other/Romance',
+          'shortTitle': 'S.O/Romance',
           'score': 0.5,
           'weight': '1',
           'color': '#C7E89E',
@@ -204,6 +240,7 @@ export default {
         {
           'id': 6,
           'title': 'Personal Development',
+          'shortTitle': 'Personal Dev.',
           'score': 0.5,
           'weight': '1',
           'color': '#4D9DB4',
@@ -217,6 +254,7 @@ export default {
         {
           'id': 7,
           'title': 'Physical Environment',
+          'shortTitle': 'Physical Env.',
           'score': 0.5,
           'weight': '1',
           'color': '#4776B4',
@@ -234,7 +272,9 @@ export default {
   methods: {
     onResize: function () {
       this.width = Math.min(document.getElementById('container').offsetWidth, 768)
-      this.radius = Math.min(this.width, this.height) / 2
+      this.radius = Math.min(this.width / 2, 250)
+      // this.height = Math.min(document.getElementById('container').offsetWidth, 500)
+      this.height = this.width + 100
       this.innerRadius = 0.1 * this.radius
       this.something()
     },
