@@ -10,7 +10,7 @@
       :viewBox="`0, 0, ${width}, ${height}`"
       perserveAspectRatio="xMinYMid">
         <g :transform="`translate(${width / 2}, ${transformY})`">
-`
+
           <circle v-for="i in 5" cx="0" cy="0" :r="( ((radius - innerRadius) * (i*2/12)) + innerRadius)" fill="none" class="text-grey-light stroke-current" />
 
         </g>
