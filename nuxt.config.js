@@ -54,5 +54,10 @@ module.exports = {
     },
     vendor: ['d3', 'firebase']
   },
+
+  plugins: [
+    { src: '~/plugins/vue-mq', ssr: false }
+  ],
+
   css: ['~/assets/css/tailwind.css']
 }
