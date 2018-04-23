@@ -9,7 +9,7 @@
       class="block mx-auto"
       :viewBox="`0, 0, ${width}, ${height}`"
       perserveAspectRatio="xMinYMid">
-        <g :transform="`translate(${width / 2}, ${(width / 2)})`">
+        <g :transform="`translate(${width / 2}, ${transformY})`">
 `
           <circle v-for="i in 5" cx="0" cy="0" :r="( ((radius - innerRadius) * (i*2/12)) + innerRadius)" fill="none" class="text-grey-light stroke-current" />
 
@@ -21,7 +21,7 @@
           rx="4"
           ry="4"
           x="8"
-          :y="`${width + 16}`"
+          :y="`${transformY + radius}`"
           fill="none"
           class="inline-block md:hidden text-grey-light stroke-current"
         >
@@ -30,7 +30,7 @@
         <g
           v-for="step in steps"
           class="legend inline-block md:hidden"
-          :transform="`translate(${(Math.floor(step.id / 4) * radius) + 16}, ${(Math.floor(step.id % 4) * 15) + 24 + width})`"
+          :transform="`translate(${(Math.floor(step.id / 4) * radius) + 16}, ${(Math.floor(step.id % 4) * 15) + 10 + transformY + radius})`"
         >
             <rect
               width="10"
@@ -41,7 +41,7 @@
             </rect>
 
             <text
-              font-size="12px"
+              font-size="14px"
               x="16"
               y="10"
             >
@@ -50,7 +50,7 @@
         </g>
 
 
-        <g :transform="`translate(${width / 2}, ${(width / 2)})`">
+        <g :transform="`translate(${width / 2}, ${transformY})`">
 
           <path
           v-for="step in steps"
@@ -269,12 +269,27 @@ export default {
     }
   },
 
+  computed: {
+    compHeight () {
+      if (this.$mq === 'sm') return this.width + 100
+      if (this.$mq === 'md') return this.width + 80
+      if (this.$mq === 'lg') return Math.min(this.width, 550)
+      if (this.$mq === 'xl') return Math.min(this.width, 550)
+    },
+    transformY () {
+      if (this.$mq === 'sm') return this.height / 2 - 40
+      if (this.$mq === 'md') return this.height / 2 - 80
+      if (this.$mq === 'lg') return this.height / 2
+      if (this.$mq === 'xl') return this.height / 2
+    }
+  },
+
   methods: {
     onResize: function () {
       this.width = Math.min(document.getElementById('container').offsetWidth, 768)
       this.radius = Math.min(this.width / 2, 250)
       // this.height = Math.min(document.getElementById('container').offsetWidth, 500)
-      this.height = this.width + 100
+      this.height = this.compHeight
       this.innerRadius = 0.1 * this.radius
       this.something()
     },
