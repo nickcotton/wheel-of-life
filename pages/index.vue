@@ -58,6 +58,14 @@
   .bg-grad-4 {
     background-image: linear-gradient(45deg, #662d8c, #ed1e79);
   }
+
+  .page-enter-active, .page-leave-active {
+    transition: all .30s ease-out;
+  }
+
+  .page-enter, .page-leave-active {
+    opacity: 0;
+  }
 </style>
 
 <script>

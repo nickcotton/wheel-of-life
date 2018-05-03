@@ -426,4 +426,12 @@ export default {
     font-weight: bold;
     font-size: 500%;
   }
+
+  .page-enter-active, .page-leave-active {
+    transition: all .30s ease-out;
+  }
+
+  .page-enter, .page-leave-active {
+    opacity: 0;
+  }
 </style>
